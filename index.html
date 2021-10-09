@@ -1,0 +1,187 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Note Application</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/5a4a110866.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="darkOverlay"></div>
+
+    <div class="alert alert-success" id="alert-added" role="alert"></div>
+    <div class="alert alert-danger" id="alert-removed" role="alert"></div>
+    <div class="alert alert-primary" id="alert-modified" role="alert"></div>
+    
+    <div class="container pt-5 mb-5">
+
+        <div class="col-12">
+            <h2 class="mb-5 display-4">Notes</h2>
+        </div>
+
+        <div class="row">
+
+            <!-- ADDING NOTES -->
+            <div class="block card mb-3" id="createNote">
+                <form>
+
+                    <div class="card-header">
+                        <h6 class="addnewnote mb-0 d-block">Add a new note</h6>
+                    </div>
+
+                    <div class="content">
+
+                        <label class="d-block mt-3 mb-1">Title</label>
+                        <input type="text" class="form-control" id="title" required>
+
+                        <label class="d-block mt-3 mb-1">Body</label>
+                        <textarea class="form-control" id="body" rows="3" required></textarea>
+
+                        <div class="form-check mt-3 mb-1 pl-0">
+                            <input class="inp-cbx form-check-input" type="checkbox" style="display: none" id="importantNote"/>
+
+                            <label class="cbx" for="importantNote" id="impPress">
+                                <span>
+                                    <svg width="12px" height="10px" viewbox="0 0 12 10">
+                                        <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                    </svg>
+                                </span>
+
+                                <span>Important note</span>
+                            </label>
+                        </div>
+    
+                        <input type="submit" value="Add note" class="btn btn-secondary mt-3">
+                        <button type="button" class="btn btn-outline-secondary mt-3 ml-2" id="cancelNote">Cancel</button>
+
+                    </div><!-- content-->
+                </form>
+
+            </div>
+
+            <div class="col-3">
+
+                <div id="sticky-sidebar">
+
+                    <div class="filters">
+                        <div class="row">
+
+                            <input type="button" class="btn btn-secondary" onclick="showAll()" value="Show all notes" id="showAllFilter">
+
+                            <div id="create" class="btn btn-secondary" title="Add note">Add note</div>
+
+                            <div class="input-group text-center" id="search">
+                                <input type="text" class="form-control" placeholder="Search notes" id="searchValue" required>
+
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button" onclick="searchClear()">Clear</button>
+                                </div>
+                            </div>
+
+                            <div id="importantFilter">
+                                <span><i class="filterStar fas fa-star"></i></span>
+
+                                <label class="switch">
+                                    <input type="checkbox" onclick="validateNotes()" id="filter_IN">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                    </div>
+
+                </div><!-- filters -->
+            </div>
+
+        </div>
+
+        <hr />
+        <br />
+
+            <div id="updateDiv">
+
+                <form class="update_form">
+
+                    <div class="card-header">
+                        <h6 class="addnewnote mb-0 d-block">Update note</h6>
+                    </div>
+            
+                    <div class="content">
+
+                            <label class="d-block mt-3 mb-1">Title</label>
+                            <input type="text" class="form-control" id="update_title" required>
+
+                            <label class="d-block mt-3 mb-1">Body</label>
+                            <textarea class="form-control" id="update_body" rows="3" required></textarea>
+
+                            <div class="form-check mt-3 mb-1 pl-0">
+                                <input class="inp-cbx form-check-input" type="checkbox" style="display: none" id="update_importantNote"/>
+
+                                <label class="cbx" for="update_importantNote" id="impPress">
+                                    <span>
+                                        <svg width="12px" height="10px" viewbox="0 0 12 10">
+                                            <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                                        </svg>
+                                    </span>
+
+                                    <span>Important note</span>
+                                </label>
+                            </div>
+
+                        <input type="submit" class="btn btn-secondary mt-3" value="Update note" class="btn btn-outline-secondary mt-4">
+                        <button type="button" class="btn btn-outline-secondary mt-3 ml-2" id="cancelUpdate">Cancel</button>
+
+                    </div><!-- content-->
+                </form>
+                        
+            </div><!-- updateDiv -->
+
+            <div class="col-7 text-center" id="whiteBoard_Outer">
+
+                <div id="whiteBoard_Inner">
+
+                    <!-- IF NO NOTES: DISPLAY: "No notes" -->
+                    <label id="noNotes"></label>
+
+                    <ul>
+                        <!-- NOTES WIL BE DISPLAYED HERE -->
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div><!-- row -->
+    </div><!-- container -->
+
+    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    
+    <script>
+        const firebaseConfig = {
+        apiKey: "AIzaSyAI6GrfP5ej72Hew7nZRJhnMP6myRZOVMw",
+        authDomain: "note-application-e1fb7.firebaseapp.com",
+        projectId: "note-application-e1fb7",
+        storageBucket: "note-application-e1fb7.appspot.com",
+        messagingSenderId: "1058710910370",
+        appId: "1:1058710910370:web:f4c1e9f6b5c1cf6ff66efb"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        // Initialize our firestore connection and stores it inside our variable (db)
+        const db = firebase.firestore();
+    </script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="sandbox.js"></script>
+
+</body>
+</html>

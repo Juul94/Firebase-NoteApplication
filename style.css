@@ -1,0 +1,447 @@
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body { 
+  /* background:url(https://subtlepatterns.com/patterns/little_pluses.png) #cacaca !important;  */
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+  background: #4d4d4d !important;
+  color:white !important;
+}
+
+.container {
+  padding-bottom:75px !important;
+  z-index:99 !important;
+}
+
+.card .content {
+  padding:0 30px 20px 30px;
+  box-shadow: 0 3px 5px -2px gray;
+}
+
+#updateDiv .content {
+  padding:0 30px 20px 30px;
+  box-shadow: 0 3px 5px -2px gray;
+}
+
+.addnewnote {
+  font-size:20px;
+  font-weight: normal;
+}
+
+.card-header {
+  background-color:#6c757d !important;
+  padding:15px 10px;
+  font-weight: 300;
+  color:white;
+}
+
+textarea {
+  min-height:100px !important;
+  max-height:250px !important;
+}
+
+li {
+  -webkit-box-shadow: #DDD 0px 1px 2px;
+  position: relative;
+  background-color: #F4F39E;
+  border-color: #DEE184;
+  color: #47576B;
+  text-align: center;
+  margin: 2.5em 0px;
+  padding: 1.5em 1em;
+  -webkit-box-shadow: 0px 1px 3px rgba(0,0,0,0.25);
+  -moz-box-shadow: 0px 1px 3px rgba(0,0,0,0.25);
+  box-shadow: 0px 1px 3px rgba(0,0,0,0.25);
+  width: 250px;
+  font-family: 'Indie Flower', cursive;
+  font-family: 'Give You Glory', cursive;
+  font-family: 'The Girl Next Door', cursive;
+  font-family: 'Gloria Hallelujah', cursive;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  padding-bottom:25px !important;
+  display: inline-block;
+  margin: 20px 10px;
+  display:inline-block;
+  vertical-align: top;
+}
+
+li:after {
+  display: block;
+  content: "";
+  position: absolute; 
+  width: 110px;
+  height: 30px;
+  top: -21px;
+  left: 30%;    
+  border: 1px solid #fff;
+  background: rgba(254, 254, 254, .6);
+  -webkit-box-shadow: 0px 0 3px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 0 3px rgba(0,0,0,0.1);
+  box-shadow: 0px 0 3px rgba(0,0,0,0.1);  
+}
+
+li h2 {
+  font-size:20px;
+  font-weight: bold;
+}
+
+li p {
+  font-size:15px;
+  padding-top:10px;
+}
+
+span.time {
+  display: block;
+  margin-bottom: 30px;
+}
+
+.fas.fa-times {
+  color:#47576B;
+  font-size:17.5px;
+  padding:0;
+  transition: all 0.3s;
+  padding-top:10px !important;
+  position: absolute;
+  top:-5px;
+  right:10px;
+  opacity: 0.5;
+}
+
+.fas.fa-times:hover {
+  opacity: 1;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+#noteChanges {
+  width:100%;
+  display:block;
+}
+
+.fas.fa-edit {
+  opacity: 0.5;
+  font-size:17.5px;
+  padding:0;
+  transition: all 0.3s;
+  position: absolute;
+  bottom:12.5px;
+  right:7.5px;
+}
+
+.fas.fa-edit:hover {
+  opacity: 1;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.star {
+  display:none;
+  color:orange;
+  position: absolute;
+  top:5px;
+  left:10px;
+}
+
+.filterStar {
+  color:orange;
+}
+
+.btn:focus {
+  outline:none !important;
+  box-shadow: none !important;
+}
+
+#noNotes {
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  margin: 40px 0 0 0;
+  display:block;
+}
+
+#alert-added,
+#alert-removed,
+#alert-modified,
+#alert-nonefound {
+  display: none;
+  text-align: center;
+  position: absolute;
+  top: 60px;
+  width: 35%;
+  left: 40%;
+}
+
+#darkOverlay {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+  display:none;
+  z-index:9;
+}
+
+#updateDiv {
+  background-color: #ffffff;
+  position: fixed;
+  width:60%;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index:99;
+  display:none;
+}
+
+#createNote {
+  background-color: #ffffff;
+  position: fixed;
+  width:60%;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index:99;
+  border:1px solid transparent;
+  display:none;
+  z-index:99 !important;
+}
+
+#searchValue:focus {
+  box-shadow: none;
+}
+
+#sticky-sidebar {
+  width:300px;
+  position:fixed;
+  border: 10px solid #adb2bd;
+  background-color: #f2f2f2;
+  box-shadow: inset -1px 2px 2px #404040, 6px 9px 1px rgb(0 0 0 / 10%);
+  padding:40px 25px;
+  border-radius: 5px;
+  color:white;
+  height:auto;
+}
+
+.dblock {
+  width:100% !important;
+  display:block !important;
+  margin-bottom:20px;
+}
+
+/* Checkbox Style */
+
+.cbx {
+  margin: auto;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+.cbx span {
+  display: inline-block;
+  vertical-align: middle;
+  transform: translate3d(0, 0, 0);
+}
+
+.cbx span:first-child {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  transform: scale(1);
+  vertical-align: middle;
+  border: 1px solid #9098A9;
+  transition: all 0.2s ease;
+}
+
+.cbx span:first-child svg {
+  position: absolute;
+  top: 3px;
+  left: 2px;
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 16px;
+  stroke-dashoffset: 16px;
+  transition: all 0.3s ease;
+  transition-delay: 0.1s;
+  transform: translate3d(0, 0, 0);
+}
+
+.cbx span:first-child:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: #506EEC;
+  display: block;
+  transform: scale(0);
+  opacity: 1;
+  border-radius: 50%;
+}
+
+.cbx span:last-child {
+  padding-left: 8px;
+}
+
+.cbx:hover span:first-child {
+  border-color: #506EEC;
+}
+
+.inp-cbx:checked + .cbx span:first-child {
+  background: #506EEC;
+  border-color: #506EEC;
+  animation: wave 0.4s ease;
+}
+
+.inp-cbx:checked + .cbx span:first-child svg {
+  stroke-dashoffset: 0;
+}
+
+.inp-cbx:checked + .cbx span:first-child:before {
+  transform: scale(3.5);
+  opacity: 0;
+  transition: all 0.6s ease;
+}
+
+@keyframes wave {
+  50% {
+    transform: scale(0.9);
+  }
+}
+
+/***** The switch - the box around the slider ******/
+.switch {
+  position: absolute;
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+  margin-left:10px;
+  margin-top: -3px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: orange;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px orange;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/*** OTHERS ***/
+
+#create {
+  display:block;
+  width:80%;
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom:40px;
+  text-align: center;
+}
+
+#search {
+  width:80%;
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom:40px;
+}
+
+#importantFilter {
+  padding:0 !important;
+  margin-left:0 !important;
+
+  display:block;
+  width:80%;
+  margin-left:auto;
+  margin-right:auto;
+  text-align: center;
+}
+
+#showAllFilter {
+  display:block;
+  width:80%;
+  margin-left:auto;
+  margin-right:auto;
+  text-align: center;
+  margin-bottom:40px;
+}
+
+#whiteBoard_Outer {
+  margin-left:50px;
+}
+
+#whiteBoard_Inner {
+  padding:35px 20px 0 20px;
+  background-color: #f2f2f2;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  border: 10px solid #adb2bd;
+  box-shadow: inset -1px 2px 2px #404040, 6px 9px 1px rgba(0, 0, 0, 0.1);
+  /* overflow: hidden; */
+  margin:0 auto;
+  z-index: 8 !important;
+}
